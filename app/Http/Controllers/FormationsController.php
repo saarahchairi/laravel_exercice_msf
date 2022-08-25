@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreFormationsRequest;
-use App\Http\Requests\UpdateFormationsRequest;
 use App\Models\Formations;
+use Illuminate\Http\Request;
 
 class FormationsController extends Controller
 {
@@ -15,7 +14,8 @@ class FormationsController extends Controller
      */
     public function index()
     {
-        //
+        $allFormation = Formations::all();
+        return view('pages.formation', compact("allFormation"));
     }
 
     /**
@@ -34,9 +34,13 @@ class FormationsController extends Controller
      * @param  \App\Http\Requests\StoreFormationsRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreFormationsRequest $request)
+    public function store(Request $request)
     {
-        //
+        $store = new Formations;
+        $store->nom = $request->nom;
+        $store->description = $request->description;
+        $store->save();
+        return redirect(route('formation'));
     }
 
     /**
@@ -45,9 +49,10 @@ class FormationsController extends Controller
      * @param  \App\Models\Formations  $formations
      * @return \Illuminate\Http\Response
      */
-    public function show(Formations $formations)
+    public function show($id)
     {
-        //
+        $id_show = Formations::find($id);
+        return view('pages.editFormation', compact('id_show'));
     }
 
     /**
@@ -68,9 +73,13 @@ class FormationsController extends Controller
      * @param  \App\Models\Formations  $formations
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateFormationsRequest $request, Formations $formations)
+    public function update(Request $request, $id)
     {
-        //
+        $editable = Formations::find($id);
+        $editable->nom = $request->nom;
+        $editable->description = $request->description;
+        $editable->save();
+        return redirect(route('formation'));
     }
 
     /**
@@ -79,8 +88,10 @@ class FormationsController extends Controller
      * @param  \App\Models\Formations  $formations
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Formations $formations)
+    public function destroy($id)
     {
-        //
+        $destroy = Formations::find($id);
+        $destroy->delete();
+        return redirect()->back();
     }
 }

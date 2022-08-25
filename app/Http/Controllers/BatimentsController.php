@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreBatimentsRequest;
-use App\Http\Requests\UpdateBatimentsRequest;
 use App\Models\Batiments;
+use Illuminate\Http\Request;
 
 class BatimentsController extends Controller
 {
@@ -15,7 +14,8 @@ class BatimentsController extends Controller
      */
     public function index()
     {
-        //
+        $allBatiment = Batiments::all();
+        return view('pages.batiment', compact('allBatiment'));
     }
 
     /**
@@ -34,9 +34,14 @@ class BatimentsController extends Controller
      * @param  \App\Http\Requests\StoreBatimentsRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreBatimentsRequest $request)
+
+    public function store(Request $request)
     {
-        //
+        $store = new Batiments;
+        $store->nom = $request->nom;
+        $store->description = $request->description;
+        $store->save();
+        return redirect(route('/batiment'));
     }
 
     /**
@@ -45,9 +50,10 @@ class BatimentsController extends Controller
      * @param  \App\Models\Batiments  $batiments
      * @return \Illuminate\Http\Response
      */
-    public function show(Batiments $batiments)
+    public function show($id)
     {
-        //
+        $id_show = Batiments::find($id);
+        return view('pages.editBatiment', compact('id_show'));
     }
 
     /**
@@ -68,9 +74,13 @@ class BatimentsController extends Controller
      * @param  \App\Models\Batiments  $batiments
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateBatimentsRequest $request, Batiments $batiments)
+    public function update(Request $request, $id)
     {
-        //
+        $editable = Batiments::find($id);
+        $editable->nom = $request->nom;
+        $editable->description = $request->description;
+        $editable->save();
+        return redirect(route('batiment'));
     }
 
     /**
@@ -79,8 +89,10 @@ class BatimentsController extends Controller
      * @param  \App\Models\Batiments  $batiments
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Batiments $batiments)
+    public function destroy($id)
     {
-        //
+        $destroy = Batiments::find($id);
+        $destroy->delete();
+        return redirect()->back();
     }
 }

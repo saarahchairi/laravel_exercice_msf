@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('nom', 30);
             $table->string('prenom', 30);
             $table->integer('age');
-            $table->text('description');
             $table->string('etat');
             $table->timestamps();
         });

@@ -20,7 +20,6 @@ class ElevesSeeder extends Seeder
             "nom"=> Faker::create()->firstName,
             "prenom"=> Faker::create()->lastName,
             "age"=> Faker::create()->numberBetween($min = 18, $max = 30),
-            "description"=> Faker::create()->text($maxNbChars = 200),
             "etat"=> Faker::create()->jobTitle,
         ]);
     }

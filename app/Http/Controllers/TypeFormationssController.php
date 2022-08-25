@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreTypeFormationssRequest;
-use App\Http\Requests\UpdateTypeFormationssRequest;
+use Illuminate\Http\Request;
 use App\Models\TypeFormationss;
 
 class TypeFormationssController extends Controller
@@ -15,7 +14,8 @@ class TypeFormationssController extends Controller
      */
     public function index()
     {
-        //
+        $allTypeFormation = TypeFormationss::all();
+        return view('pages.typeFormation', compact('allTypeFormation'));
     }
 
     /**
@@ -34,9 +34,12 @@ class TypeFormationssController extends Controller
      * @param  \App\Http\Requests\StoreTypeFormationssRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreTypeFormationssRequest $request)
+    public function store(Request $request)
     {
-        //
+        $store = new TypeFormationss;
+        $store->nom = $request->nom;
+        $store->save();
+        return redirect(route('typeFormation'));
     }
 
     /**
@@ -45,9 +48,10 @@ class TypeFormationssController extends Controller
      * @param  \App\Models\TypeFormationss  $typeFormationss
      * @return \Illuminate\Http\Response
      */
-    public function show(TypeFormationss $typeFormationss)
+    public function show($id)
     {
-        //
+        $id_show = TypeFormationss::find($id);
+        return view('pages.editTypeFormation', compact('id_show'));
     }
 
     /**
@@ -68,9 +72,12 @@ class TypeFormationssController extends Controller
      * @param  \App\Models\TypeFormationss  $typeFormationss
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateTypeFormationssRequest $request, TypeFormationss $typeFormationss)
+    public function update(Request $request, $id)
     {
-        //
+        $editable = TypeFormationss::find($id);
+        $editable->nom = $request->nom;
+        $editable->save();
+        return redirect(route('typeFormation'));
     }
 
     /**
@@ -79,8 +86,10 @@ class TypeFormationssController extends Controller
      * @param  \App\Models\TypeFormationss  $typeFormationss
      * @return \Illuminate\Http\Response
      */
-    public function destroy(TypeFormationss $typeFormationss)
+    public function destroy($id)
     {
-        //
+        $destroy = TypeFormationss::find($id);
+        $destroy->delete();
+        return redirect()->back();
     }
 }
