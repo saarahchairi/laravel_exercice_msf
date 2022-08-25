@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('prenom', 30);
             $table->integer('age');
             $table->text('description');
-            $table->boolean('etat', 30);
+            $table->string('etat');
             $table->timestamps();
         });
     }

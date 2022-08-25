@@ -17,7 +17,11 @@ class ElevesFactory extends Factory
     public function definition()
     {
         return [
-            //
+            "nom"=> $this->faker->firstName,
+            "prenom"=> $this->faker->lastName,
+            "age"=> $this->faker->numberBetween($min = 18, $max = 30),
+            "description"=> $this->faker->text($maxNbChars = 200),
+            "etat"=> $this->faker->jobTitle,
         ];
     }
 }
